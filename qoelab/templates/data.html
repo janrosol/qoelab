@@ -1,0 +1,44 @@
+﻿{% extends 'base.html' %}
+
+{% block title %}
+Dane
+{% endblock %}
+
+{% block content %}    
+   <br>
+    <table class="table table-hover table-dark">
+    <thead>
+        <tr>
+            <!-- Your Columns HERE -->
+            <th scope="col">ID</th>
+            <th scope="col">Płeć</th>
+            <th scope="col">Wykształcenie</th>
+            <th scope="col">Wiek</th>
+            <th scope="col">Wada wzroku</th>
+            <th scope="col">Ocena 1</th>
+            <th scope="col">Ocena 2</th>
+            <th scope="col">Ocena 3</th>
+            <th scope="col">Odpowiedzi</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Your rows inside the table HERE: -->
+            {% for item in dataset %}
+            {% include 'modals/modal.html' %}
+                <tr>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.sex }}</td>
+                    <td>{{ item.education }}</td>
+                    <td>{{ item.age }}</td>
+                    <td>{{ item.vision_defect }}</td>
+                    <td>{{ item.rate_1 }}</td>
+                    <td>{{ item.rate_2 }}</td>
+                    <td>{{ item.rate_3 }}</td>
+                    <td>
+                        <button class="btn btn-outline btn-info" data-toggle="modal" data-target="#Answers-{{ item.id }}">Wyświetl</button>
+                    </td>
+                </tr>
+            {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

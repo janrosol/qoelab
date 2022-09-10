@@ -1,0 +1,97 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <title>
+    {% block title %}
+    Ankieta końcowa
+    {% endblock %}
+    </title>
+
+</head>
+<body>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+             <div class="alert alert-{{ category }}">
+                <button type="button" class="m1-2 mb-1 close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</true>
+                </button>
+                {{ message }}
+             </div>
+            {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+{% block content %}
+<body>
+	<form method="POST" style="color:white">
+		{{ form.hidden_tag() }}
+		<br>
+		<h2 class="font-weight-normal">
+        <br>
+        <div class="center">
+			<b>Pytania otwarte</b>
+            <br>
+            <br>
+            <p><img src="https://qoe.agh.edu.pl/wp-content/uploads/2021/05/cropped-logoqoe_crop_square-1.png" alt="nw" width="200" height="200"></p>
+            </div>
+		</h2>
+		<div class="container">
+        <div class="margin">
+			<br>
+			<br>
+			<p>1. Jak dużej aktywności umysłowej wymagał od Ciebie eksperyment? Był on łatwy/wymagający, prosty/złożony?</p>
+			{{ form.q_1(class="form-control", placeholder="1-łatwy/prosty; 10-wymagający/złożony") }}
+			<br>
+			<p>2. Jak dużej aktywności fizycznej wymagał od Ciebie eksperyment? Był on łatwy/wymagający?</p>
+			{{ form.q_2(class="form-control", placeholder="1-łatwy; 10-wymagający") }}
+			<br>
+			<p>3. Czy odczuwałeś/aś presję czasu ze względu na tempo? Czy tempo było za wolne/za szybkie?</p>
+			{{ form.q_3(class="form-control", placeholder="1-za wolne; 10-za szybkie") }}
+			<br>
+			<p>4. Jak uważasz, że udało Ci się wykonać zadanie? Jak bardzo jesteś zadowolony/a z wykonania zadania?</p>
+			{{ form.q_4(class="form-control", placeholder="1-nie jestem zadowlony/a; 10-jestem bardzo zadowolony/a") }}
+			<br>
+			<p>5. Jak ciężkie było dla Ciebie osiągnięcie odpowiedniego poziomu koncentracji/wydajności podczas eksperymentu?</p>
+			{{ form.q_5(class="form-control", placeholder="1-bardzo łatwe, 10-bardzo trudne") }}
+			<br>
+			<p>6. Jak bardzo byłeś/aś zestresowany/a, a jak bardzo zrelaksowany/a podczas eksperymentu?</p>
+			{{ form.q_6(class="form-control", placeholder="1-bardzo zrelaksowany/a; 10-bardzo zestresowany/a") }}
+			<br>
+			<br>
+        </div>
+			<center>{{ button.button_exit(class="btn btn-lg btn-primary", style="align: center") }}</center>
+        </div>
+	</form>
+</body>
+{% endblock %}
+
+      <!-- Optional JavaScript -->
+      <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+      <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+   </body>
+   <style>
+      body{
+          background-color: #212121;
+          color: white;
+          }
+      .center{
+        text-align: center;
+        }
+      h1{
+          margin-center: auto;
+      }
+      .margin {
+        margin-left: 20px;
+      }
+   </style>
+</html>
