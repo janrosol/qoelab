@@ -10,8 +10,10 @@ dash==2.6.1
 dash-core-components==2.0.0
 dash-html-components==2.0.0
 dash-table==5.0.0
+distlib==0.3.6
 dnspython==2.2.1
 email-validator==1.2.1
+filelock==3.8.0
 Flask==2.2.2
 Flask-Bcrypt==1.0.1
 Flask-Compress==1.12
@@ -32,6 +34,7 @@ optional-django==0.3.0
 packaging==21.3
 pandas==1.4.4
 patsy==0.5.2
+platformdirs==2.5.2
 plotly==5.10.0
 plotly-express==0.4.1
 pycparser==2.21
@@ -46,5 +49,6 @@ SQLAlchemy==1.4.40
 statsmodels==0.13.2
 tenacity==8.0.1
 urllib3==1.26.12
+virtualenv==20.16.5
 Werkzeug==2.2.2
 WTForms==3.0.1
