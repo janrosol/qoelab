@@ -29,7 +29,7 @@ Jinja2==3.1.2
 Mako==1.2.2
 MarkupSafe==2.1.1
 mcculw==1.0.0
-numpy==1.23.2
+numpy==1.21.6
 optional-django==0.3.0
 packaging==21.3
 pandas==1.4.4
