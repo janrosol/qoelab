@@ -1,7 +1,7 @@
 ﻿{% extends 'base.html' %}
 
 {% block title %}
-Dane
+Dane testerów
 {% endblock %}
 
 {% block content %}    
@@ -13,29 +13,30 @@ Dane
             <th scope="col">ID</th>
             <th scope="col">Płeć</th>
             <th scope="col">Wykształcenie</th>
-            <th scope="col">Wiek</th>
-            <th scope="col">Wada wzroku</th>
-            <th scope="col">Ocena 1</th>
-            <th scope="col">Ocena 2</th>
-            <th scope="col">Ocena 3</th>
+            <th scope="col">Rok urodzenia</th>
+            <th scope="col">Wada oka lewego</th>
+            <th scope="col">Wada oka prawego</th>
             <th scope="col">Odpowiedzi</th>
+            <th scope="col">Pomiary</th>
         </tr>
     </thead>
     <tbody>
         <!-- Your rows inside the table HERE: -->
             {% for item in dataset %}
             {% include 'modals/modal.html' %}
+            {% include 'modals/measurements.html' %}
                 <tr>
                     <td>{{ item.id }}</td>
                     <td>{{ item.sex }}</td>
                     <td>{{ item.education }}</td>
                     <td>{{ item.age }}</td>
-                    <td>{{ item.vision_defect }}</td>
-                    <td>{{ item.rate_1 }}</td>
-                    <td>{{ item.rate_2 }}</td>
-                    <td>{{ item.rate_3 }}</td>
+                    <td>{{ item.left_eye }}</td>
+                    <td>{{ item.right_eye }}</td>
                     <td>
                         <button class="btn btn-outline btn-info" data-toggle="modal" data-target="#Answers-{{ item.id }}">Wyświetl</button>
+                    </td>
+                    <td>
+                        <button class="btn btn-outline btn-warning" data-toggle="modal" data-target="#Measurements-{{ item.id }}">Wyświetl</button>
                     </td>
                 </tr>
             {% endfor %}

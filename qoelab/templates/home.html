@@ -8,21 +8,17 @@
     <br>
     <body>
     <div class="center">
-    <h1>Wirtualne laboratorium QoE</h1>
+    <h1><b>Wirtualne laboratorium QoE</b></h1>
     <br>
     <img src="https://qoe.agh.edu.pl/wp-content/uploads/2021/05/cropped-logoqoe_crop_square-1.png" alt="nw" width="300" height="300">
     </div>
     <br>
     <br>
     <div class="margin">
-	<p class="h5 mb-3 font-weight-normal">Wirtualne Laboratorium Quality of Experience to miejsce, w którym można przeprowadzić subiektywne badania postrzegania jakości wideo.
-    Celem badań jest sprawdzenie jak na postrzeganie jakości wpływają czynniki takie jak cechy badanego, prędkość łącza internetowego, ustawienie urządzenia, jasność pomieszczenia
-    czy czas trwania badania.</h5>
-	</div>
+	<h5 class="font-weight-normal">Wirtualne Laboratorium <b>Quality of Experience</b> to aplikacja, dzięki której można przeprowadzić subiektywne badania postrzegania jakości wideo w dowolnym miejscu, gdzie zapewniony jest dostęp do łącza internetowego.
+    Celem eksperymentu jest to, by poprzez przedstawienie grupie badanych sekwencji złożonej z filmów wideo o różnych parametrach zostało sprawdzone to, jak na postrzeganie jakości zaprezentowanych filmów wpływają czynniki takie jak cechy badanego, prędkość łącza internetowego, lokalizacja i czas trwania badania.</h5></div>
     {% if current_user.is_authenticated %}
-    <div class="margin">
-    <h3><a class="nav-link center" href="{{ url_for('qoe_1_page') }}"><b>Naciśnij, aby rozpocząć badanie!</b></a></h5>
-    </div>
+    <br><h3><a class="nav-link center" href="{{ url_for('qoe_1_page') }}"><b>Naciśnij, aby rozpocząć badanie!</b></a></h5>
     {% else %}
     <br>
     <div class="center">

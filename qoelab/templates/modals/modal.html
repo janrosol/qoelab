@@ -8,18 +8,23 @@
         </button>
       </div>
       <div class="modal-body">
-        <p>1. Jak dużej aktywności umysłowej wymagał od Ciebie eksperyment? Był on łatwy/wymagający, prosty/złożony? <b>{{ item.q_1 }}</b></p>
+        <p>1. Jak w skali 1-10 oceniasz poziom aktywności umysłowej jaką wymagał od Ciebie eksperyment? (1 - niewymagający, 10 - bardzo wymagający) <b>{{ item.q_1 }}</b>
+        </p>
         <br>
-        <p>2. Jak dużej aktywności fizycznej wymagał od Ciebie eksperyment?? Był on łatwy/wymagający? <b>{{ item.q_2 }}</b></p>
+        <p>2. Jak w skali 1-10 oceniasz poziom aktywności fizycznej jaką wymagał od Ciebie eksperyment? (1 - niewymagający, 10 - bardzo wymagający) <b>{{ item.q_2 }}</b>
+        </p>
         <br>
-        <p>3. Czy odczuwałeś/aś presję czasu ze względu na tempo? Czy tempo było za wolne/za szybkie? <b>{{ item.q_3 }}</b></p>
+        <p>3. Jak w skali 1-10 oceniasz tempo eksperymentu? (1 - zdecydowanie zbyt wolne, 10 - zdecydowanie za szybkie) <b>{{ item.q_3 }}</b>
+        </p>
         <br>
-        <p>4. Jak uważasz, że udało Ci się wykonać zadanie? Jak bardzo jesteś zadowolony/a z wykonania zadania? <b>{{ item.q_4 }}</b></p>
+        <p>4. Jak w skali 1-10 oceniasz swój poziom zadowolenia z wykonania zadania? (1 - bardzo nisko, 10 - bardzo wysoko) <b>{{ item.q_4 }}</b>
+        </p>
         <br>
-        <p>5. Jak ciężkie było dla Ciebie osiągnięcie odpowiedniego poziomu koncentracji/wydajności podczas eksperymentu? <b>{{ item.q_5 }}</b></p>
+        <p>5. Jak w skali 1-10 ciężkie było dla Ciebie osiągnięcie odpowiedniego poziomu koncentracji podczas eksperymentu? (1 - w ogóle, 10 - bardzo) <b>{{ item.q_5 }}</b>
+        </p>
         <br>
-        <p>6. Jak bardzo byłeś/aś zestresowany/a, a jak bardzo zrelaksowany/a podczas eksperymentu? <b>{{ item.q_6 }}</b></p>
-
+        <p>6. Jak w skali 1-10 oceniasz swój poziom stresu podczas eksperymentu? (1 - bardzo nisko, 10 - bardzo wysoko) <b>{{ item.q_6 }}</b>
+        </p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
@@ -27,9 +32,8 @@
     </div>
   </div>
 </div>
-
 <style>
-.modal-content{
-    background-color: #212121
-}
+  .modal-content {
+    background-color: #3D3D3B
+  }
 </style>

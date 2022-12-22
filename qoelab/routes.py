@@ -1,149 +1,175 @@
-﻿from qoelab import app, plotme
+﻿from qoelab import app, db
 from flask import render_template, redirect, url_for, flash, request
-from qoelab.modules import User_Data, User
-from qoelab.forms import RegisterForm, LoginForm, Buttons, Survey, NASA_TLX
-from qoelab import db
+from qoelab.modules import User, Sex, Education, Year, VisionDefect, User_Dataset, TLX, Statistics
+from qoelab.forms import RegisterForm, LoginForm, Buttons, NASA_TLX, TestSurvey
 from flask_login import login_user, logout_user, login_required, current_user
+import speedtest, time, json, threading, ast, os
 import pandas as pd
-import plotly.express as px
-import json
-import plotly
 
+#Zmienne globalne
+time_data=[0,0]
+i=0
+
+#Pomiary przepustowosci lacza
+def dl_speed_test_1():
+    download_speed = round(speedtest.Speedtest().download()/1024/1024, 2)
+    user = User_Dataset.query.get(User_Dataset.query.count())
+    user.dl_speed_1 = download_speed
+    db.session.commit()
+
+def dl_speed_test_2():
+    download_speed = round(speedtest.Speedtest().download()/1024/1024, 2)
+    user = User_Dataset.query.get(User_Dataset.query.count())
+    user.dl_speed_2 = download_speed
+    db.session.commit()
+
+#Strona glowna
 @app.route('/')
 @app.route('/home')
 def home_page():
+    if time_data[0] != 0:
+        time_data[1] = time.time()
+        session_time = round(time_data[1] - time_data[0], 2)
+        user = User_Dataset.query.get(User_Dataset.query.count())
+        user.session_time = session_time
+        db.session.commit()
+        time_data[0] = 0
     return render_template('home.html')
 
-@app.route('/dane')
-@login_required
-def data_page():
-    dataset = User_Data.query.all()
-    return render_template('data.html', dataset=dataset)
-
-@app.route('/statistics')
-@login_required
-def statistics_page():
-   return render_template('statistics.html')
-
-@app.route('/tlx', methods=['GET', 'POST'])
-@login_required
-def tlx_page():
-    form = NASA_TLX()
-    button = Buttons()
-    if button.validate_on_submit():
-        if 'button_exit' in request.form:
-            if not (form.q_1.data and form.q_2.data and form.q_3.data and form.q_4.data and form.q_5.data and form.q_6.data):
-                flash(f'Udziel odpowiedzi na wszystkie pytania', category='info')
-            else:
-                user = User_Data.query.get(User_Data.query.count())
-                user.q_1 = form.q_1.data
-                user.q_2 = form.q_2.data
-                user.q_3 = form.q_3.data
-                user.q_4 = form.q_4.data
-                user.q_5 = form.q_5.data
-                user.q_6 = form.q_6.data
-                db.session.commit()
-                return redirect(url_for('home_page'))
-    return render_template('tlx.html', form=form, button=button)
-
-@app.route('/experience_1', methods=['GET', 'POST'])
-@login_required
-def experience_page_1():
-    form = Survey()
-    button = Buttons()
-    if button.validate_on_submit():
-        if 'button_next' in request.form:
-            if not form.rate_1.data:
-                flash(f'Wprowadź ocenę', category='info')
-            elif(form.rate_1.data < 1 or form.rate_1.data > 5):
-                flash(f'Oceń wideo w skali 1-5!', category='info')
-            else:
-                user = User_Data.query.get(User_Data.query.count())
-                user.rate_1 = form.rate_1.data
-                db.session.commit()
-                return redirect(url_for('experience_page_2'))
-    return render_template('experience_1.html', form=form, button=button)
-
-@app.route('/experience_2', methods=['GET', 'POST'])
-@login_required
-def experience_page_2():
-    form = Survey()
-    button = Buttons()
-    if button.validate_on_submit():
-        if 'button_next' in request.form:
-            if not form.rate_2.data:
-                flash(f'Wprowadź ocenę', category='info')
-            elif(form.rate_2.data < 1 or form.rate_2.data > 5):
-                flash(f'Oceń wideo w skali 1-5!', category='info')
-            else:
-                user = User_Data.query.get(User_Data.query.count())
-                user.rate_2 = form.rate_2.data
-                db.session.commit()
-                return redirect(url_for('experience_page_3'))
-    return render_template('experience_2.html', form=form, button=button)
-
-@app.route('/experience_3', methods=['GET', 'POST'])
-@login_required
-def experience_page_3():
-    form = Survey()
-    button = Buttons()
-    if button.validate_on_submit():
-        if 'button_next' in request.form:
-            if not form.rate_3.data:
-                flash(f'Wprowadź ocenę', category='info')
-            elif(form.rate_3.data < 1 or form.rate_3.data > 5):
-                flash(f'Oceń wideo w skali 1-5!', category='info')
-            else:
-                user = User_Data.query.get(User_Data.query.count())
-                user.rate_3 = form.rate_3.data
-                db.session.commit()
-                return redirect(url_for('tlx_page'))
-    return render_template('experience_3.html', form=form, button=button)
-
-@app.route('/training_session', methods=['GET', 'POST'])
-@login_required
-def training_page():
-    form = Survey()
-    button = Buttons()
-    if button.validate_on_submit():
-        if 'button_next' in request.form:
-            if not form.rate_1.data:
-                flash(f'Wprowadź ocenę', category='info')
-            elif(form.rate_1.data < 1 or form.rate_1.data > 5):
-                flash(f'Oceń wideo w skali 1-5!', category='info')
-            else:
-                return redirect(url_for('experience_page_1'))
-    return render_template('training_session.html', form=form, button=button)
-
-@app.route('/qoe_2', methods=['GET', 'POST'])
-@login_required
-def qoe_2_page():
-    form = Survey()
-    button = Buttons()
-    if button.validate_on_submit():
-        if 'button_next' in request.form:
-            if not (form.sex.data and form.education.data and form.age.data and form.vision_defect.data):
-                flash(f'Wprowadź wszystkie dane', category='info')
-            else:
-                survey_info = User_Data(sex=form.sex.data,
-                                      education=form.education.data,
-                                      age=form.age.data,
-                                      vision_defect=form.vision_defect.data
-                                      )
-                db.session.add(survey_info)
-                db.session.commit()
-                dataset = User_Data.query.all()
-                return redirect(url_for('training_page'))
-    return render_template('qoe_2.html', form=form, button=button)
-
+#Wstep
 @app.route('/qoe_1', methods=['GET', 'POST'])
 @login_required
 def qoe_1_page():
     form = Buttons()
     if form.validate_on_submit():
+        time_data[0] = time.time()
         return redirect(url_for('qoe_2_page'))
     return render_template('qoe_1.html', form=form)
 
+#Ankieta
+@app.route('/qoe_2', methods=['GET', 'POST'])
+@login_required
+def qoe_2_page():
+    form = TestSurvey()
+    form.sex.choices = [(sex.id, sex.name) for sex in Sex.query.all()]
+    form.education.choices = [(ed.id, ed.name) for ed in Education.query.all()]
+    form.age.choices = [(age.id, age.name) for age in Year.query.all()]
+    form.left_eye.choices = [(item.id, item.name) for item in VisionDefect.query.all()]
+    form.right_eye.choices = [(item.id, item.name) for item in VisionDefect.query.all()]
+    button = Buttons()
+    if button.validate_on_submit():
+        if 'button_next' in request.form:
+            if request.method == 'POST':
+                sex = Sex.query.filter_by(id=form.sex.data).first()
+                education = Education.query.filter_by(id=form.education.data).first()
+                age = Year.query.filter_by(id=form.age.data).first()
+                left_eye = VisionDefect.query.filter_by(id=form.left_eye.data).first()
+                right_eye = VisionDefect.query.filter_by(id=form.right_eye.data).first()
+                survey_info = User_Dataset(sex=sex.name,education=education.name,
+                                            age=age.name,left_eye=left_eye.name,
+                                            right_eye=right_eye.name)
+                db.session.add(survey_info)
+                db.session.commit()
+                shuffled_df = pd.read_csv('sequences.csv').sample(frac=1)
+                shuffled_df.to_csv('shuffled_data.csv', index=False)
+            return redirect(url_for('training_page'))
+    return render_template('qoe_2.html', form=form, button=button)
+
+#Sesja treningowa
+@app.route('/training_session', methods=['GET', 'POST'])
+@login_required
+def training_page():
+    ds1 = threading.Thread(target=dl_speed_test_1)
+    ds1.start()
+    if request.method == 'POST':
+        return redirect(url_for('experience_page'))
+    return render_template('training_session.html')
+
+#Sekwencja z filmami
+@app.route('/experience', methods=['GET', 'POST'])
+@login_required
+def experience_page():
+    global i
+    sequences_number = len(pd.read_csv('sequences.csv'))
+    print(sequences_number)
+    links = pd.read_csv('shuffled_data.csv').iloc[:,2:3].values
+    titles = pd.read_csv('shuffled_data.csv').iloc[:,1:2].values
+    links_new = []
+    titles_new = []
+    for element in links:
+        links_new.append(str(element).lstrip("['").rstrip("]'"))
+    for element in titles:
+        titles_new.append(str(element).lstrip("['").rstrip("]'"))
+    if request.method == 'POST':
+        rating = request.form.get('rate_button')
+        stats = Statistics(tester_id=User_Dataset.query.get(User_Dataset.query.count()).id,
+                           sequence_name=titles_new[i-1],
+                           rate=rating,
+                           running_order=i)
+        db.session.add(stats)
+        db.session.commit()
+        return redirect(url_for('experience_page'))
+    if(i == sequences_number):
+        return redirect(url_for('tlx_page'))
+    else:
+        i+=1
+    return render_template('experience.html', listoflinks=links_new[i-1], i=i)
+
+#Ankieta koncowa
+@app.route('/tlx', methods=['GET', 'POST'])
+@login_required
+def tlx_page():
+    global i
+    if i != 0:
+        i = 0
+    ds2 = threading.Thread(target=dl_speed_test_2)
+    ds2.start()
+    form = NASA_TLX()
+    form.q_1.choices = [(q.id, q.name) for q in TLX.query.all()]
+    form.q_2.choices = [(q.id, q.name) for q in TLX.query.all()]
+    form.q_3.choices = [(q.id, q.name) for q in TLX.query.all()]
+    form.q_4.choices = [(q.id, q.name) for q in TLX.query.all()]
+    form.q_5.choices = [(q.id, q.name) for q in TLX.query.all()]
+    form.q_6.choices = [(q.id, q.name) for q in TLX.query.all()]
+    button = Buttons()
+    if button.validate_on_submit():
+        if 'button_exit' in request.form:
+            if request.method == 'POST':
+                q_1 = TLX.query.filter_by(id=form.q_1.data).first()
+                q_2 = TLX.query.filter_by(id=form.q_2.data).first()
+                q_3 = TLX.query.filter_by(id=form.q_3.data).first()
+                q_4 = TLX.query.filter_by(id=form.q_4.data).first()
+                q_5 = TLX.query.filter_by(id=form.q_5.data).first()
+                q_6 = TLX.query.filter_by(id=form.q_6.data).first()
+                rates = User_Dataset.query.get(User_Dataset.query.count())
+                rates.q_1 = q_1.name
+                rates.q_2 = q_2.name
+                rates.q_3 = q_3.name
+                rates.q_4 = q_4.name
+                rates.q_5 = q_5.name
+                rates.q_6 = q_6.name
+                db.session.commit()
+                return redirect(url_for('home_page'))
+        if 'button_back' in request.form:
+                return redirect(url_for('home_page'))
+    return render_template('tlx.html', form=form, button=button)
+
+#Dane z ankiety wstepnej
+@app.route('/dane')
+@login_required
+def data_page():
+    dataset = User_Dataset.query.all()
+    return render_template('data.html', dataset=dataset)
+
+#Dane z oceniania sekwencji
+@app.route('/statistics')
+@login_required
+def statistics_page():
+    dataset = Statistics.query.all()
+    return render_template('statistics.html', dataset=dataset)
+
+
+#Rejestracja nowego uzytkownika
 @app.route('/register', methods=['GET', 'POST'])
 @login_required
 def register_page():
@@ -166,6 +192,7 @@ def register_page():
 
     return render_template('register.html', form=form)
 
+#Logowanie
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
     form = LoginForm()
@@ -185,6 +212,7 @@ def login_page():
 
     return render_template('login.html', form=form)
 
+#Wylogowanie
 @app.route('/logout')
 @login_required
 def logout_page():

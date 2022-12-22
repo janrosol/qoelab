@@ -1,9 +1,31 @@
 ﻿{% extends 'base.html' %}
 
 {% block title %}
-Statystyki
+Statystyki filmów
 {% endblock %}
 
-{% block content %} 
-  <h1>Sekcja w budowie...</h1>
+{% block content %}    
+   <br>
+    <table class="table table-hover table-dark">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">ID testera</th>
+            <th scope="col">Nazwa sekwencji</th>
+            <th scope="col">Ocena</th>
+            <th scope="col">Kolejność wyświetlania</th>
+        </tr>
+    </thead>
+    <tbody>
+            {% for item in dataset %}
+                <tr>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.tester_id }}</td>
+                    <td>{{ item.sequence_name }}</td>
+                    <td>{{ item.rate }}</td>
+                    <td>{{ item.running_order }}</td>
+                </tr>
+            {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

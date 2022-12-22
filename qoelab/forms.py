@@ -1,5 +1,5 @@
 ﻿from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, IntegerField
+from wtforms import StringField, PasswordField, SubmitField, IntegerField, SelectField
 from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationError, NumberRange
 from qoelab.modules import User
 
@@ -27,26 +27,28 @@ class LoginForm(FlaskForm):
     password=PasswordField(label='Hasło:', validators=[DataRequired()])
     submit = SubmitField(label='Zaloguj się')
 
-class Survey(FlaskForm):
-    sex = StringField(label='Płeć:')
-    education = StringField(label='Wykształcenie:')
-    age = IntegerField(label='Wiek:')
-    vision_defect = StringField(label='Wada wzroku:')
-    submit = SubmitField(label='Gotowe')
-    rate_1 = IntegerField(label='Ocena:', validators=[NumberRange(min=1, max=5)])
-    rate_2 = IntegerField(label='Ocena:', validators=[NumberRange(min=1, max=5)])
-    rate_3 = IntegerField(label='Ocena:', validators=[NumberRange(min=1, max=5)])
+class TestSurvey(FlaskForm):
+    sex = SelectField(label='Płeć:')
+    education = SelectField(label='Wykształcenie:')
+    age = SelectField(label='Wiek:')
+    left_eye = SelectField(label='Lewe oko:')
+    right_eye = SelectField(label='Prawe oko:')
 
 class Buttons(FlaskForm):
     button_next = SubmitField(label='Dalej')
     button_back = SubmitField(label='Wyjdź')
     button_start = SubmitField(label='Rozpocznij badanie')
     button_exit = SubmitField(label='Zakończ badanie')
+    button_1 = SubmitField(id=1, label='1')
+    button_2 = SubmitField(id=2, label='2')
+    button_3 = SubmitField(id=3, label='3')
+    button_4 = SubmitField(id=4, label='4')
+    button_5 = SubmitField(id=5, label='5')
 
 class NASA_TLX(FlaskForm):
-    q_1 = IntegerField(validators=[NumberRange(min=1, max=10)])
-    q_2 = IntegerField(validators=[NumberRange(min=1, max=10)])
-    q_3 = IntegerField(validators=[NumberRange(min=1, max=10)])
-    q_4 = IntegerField(validators=[NumberRange(min=1, max=10)])
-    q_5 = IntegerField(validators=[NumberRange(min=1, max=10)])
-    q_6 = IntegerField(validators=[NumberRange(min=1, max=10)])
+    q_1 = SelectField()
+    q_2 = SelectField()
+    q_3 = SelectField()
+    q_4 = SelectField()
+    q_5 = SelectField()
+    q_6 = SelectField()
