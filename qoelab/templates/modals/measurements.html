@@ -1,0 +1,25 @@
+﻿<div class="modal fade" tabindex="-1" role="dialog" id="Measurements-{{ item.id }}">
+  <div class="modal-content modal-dialog" role="document">
+      <div class="modal-header">
+        <h4 class="modal-title">Pomiary eksperymentu badanego nr {{ item.id }}:</h4>
+        <button type="button" aria-label="Close" data-dismiss="modal" class="close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <p>Pierwszy pomiar przepustowości łącza: <b>{{ item.dl_speed_1 }} Mbit/s</b>
+        </p>
+        <br>
+        <p>Drugi pomiar przepustowości łącza: <b>{{ item.dl_speed_2 }} Mbit/s</b>
+        </p>
+        <br>
+        <p>Czas trwania badania: <b>{{ item.session_time }} s</b>
+        </p>
+        <p>Czas trwania badania: <b>{{ item.session_time }} s</b>
+        </p>
+        <p>Czas trwania badania: <b>{{ item.session_time }} s</b>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+      </div>
+  </div>
+</div>

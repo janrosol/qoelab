@@ -1,0 +1,41 @@
+﻿{% extends 'base.html' %} 
+
+{% block title %} 
+Badanie 
+{% endblock %} 
+
+{% block content %}
+<body>
+  <div class="center"><br>
+    <h1><b>Instrukcja badania QoE</b></h1>
+    <br>
+    <img src="https://qoe.agh.edu.pl/wp-content/uploads/2021/05/cropped-logoqoe_crop_square-1.png" alt="nw" width="300" height="300">
+  </div>
+  <br><br>
+  <div class="margin">
+  Badanie jakości postrzeganej przez użytkownika wideo składa się z następujących etapów:
+      <li><b>Ankieta osobowa</b> - zebranie od badanego podstawowych danych dotyczących wieku, płci, poziomu wykształcenia oraz wad wzroku.</li>
+      <li><b>Sesja treningowa</b> - zapoznanie badanego z przebiegiem badania poprzez wyświetlenie przykładowej sekwencji wideo oraz planszy do oceny.</li>
+      <li><b>Sesja właściwa</b> - wyświetlenie badanemu sekwencji wideo wraz z planszami do oceny.</li>
+      <li><b>Ankieta końcowa</b> - zebranie od badanego informacji na temat odczuć dotyczących przebiegu badania.</li><br></div>
+  <div class="center">
+    <form method="POST" action="/qoe_1">
+    <input type="submit" class="btn btn-lg btn-outline-info active" value="Rozpocznij badanie">
+    </form>
+  </div>
+</body>
+
+<style>
+  .center {
+    text-align: center;
+  }
+
+  .margin {
+    margin-left: 80px;
+    margin-right: 80px;
+    font-size: 20px;
+    text-align: justify;
+  }
+</style>
+
+{% endblock %}

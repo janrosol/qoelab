@@ -1,0 +1,35 @@
+﻿{% extends 'base.html' %}
+
+{% block title %}
+Statystyki filmów
+{% endblock %}
+
+<!--> Konfiguracja tabeli 'Oceny filmów' <-->
+
+{% block content %}    
+   <br>
+    <table class="table table-hover table-dark">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">ID testera</th>
+            <th scope="col">Nazwa sekwencji</th>
+            <th scope="col">Ocena</th>
+            <th scope="col">Kolejność wyświetlania</th>
+            <th scope="col">Pomiar przepustowości łącza [Mb/s]</th>
+        </tr>
+    </thead>
+    <tbody>
+            {% for data in dataset %}
+                <tr>
+                    <td>{{ data.id }}</td>
+                    <td>{{ data.tester_id }}</td>
+                    <td>{{ data.sequence_name }}</td>
+                    <td>{{ data.rate }}</td>
+                    <td>{{ data.running_order }}</td>
+                    <td>{{ data.dl_speed }}</td>
+                </tr>
+            {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

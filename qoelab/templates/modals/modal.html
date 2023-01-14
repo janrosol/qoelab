@@ -1,0 +1,37 @@
+<div class="modal fade" tabindex="-1" role="dialog" id="Answers-{{ data.id }}">
+  <div class="modal-content modal-dialog" role="document">
+      <div class="modal-header">
+        <h5 class="modal-title">Odpowiedzi badanego nr {{ data.id }}:</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>1. Jak w skali 1-10 oceniasz poziom aktywności umysłowej jaką wymagał od Ciebie eksperyment? (1 - niewymagający, 10 - bardzo wymagający) <b>{{ data.q_1 }}</b>
+        </p>
+        <br>
+        <p>2. Jak w skali 1-10 oceniasz poziom aktywności fizycznej jaką wymagał od Ciebie eksperyment? (1 - niewymagający, 10 - bardzo wymagający) <b>{{ data.q_2 }}</b>
+        </p>
+        <br>
+        <p>3. Jak w skali 1-10 oceniasz tempo eksperymentu? (1 - zdecydowanie zbyt wolne, 10 - zdecydowanie za szybkie) <b>{{ data.q_3 }}</b>
+        </p>
+        <br>
+        <p>4. Jak w skali 1-10 oceniasz swój poziom zadowolenia z wykonania zadania? (1 - bardzo nisko, 10 - bardzo wysoko) <b>{{ data.q_4 }}</b>
+        </p>
+        <br>
+        <p>5. Jak w skali 1-10 ciężkie było dla Ciebie osiągnięcie odpowiedniego poziomu koncentracji podczas eksperymentu? (1 - w ogóle, 10 - bardzo) <b>{{ data.q_5 }}</b>
+        </p>
+        <br>
+        <p>6. Jak w skali 1-10 oceniasz swój poziom stresu podczas eksperymentu? (1 - bardzo nisko, 10 - bardzo wysoko) <b>{{ data.q_6 }}</b>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+      </div>
+  </div>
+</div>
+<style>
+  .modal-content {
+    background-color: #3D3D3B
+  }
+</style>
