@@ -1,10 +1,13 @@
-﻿from qoelab import db, login_manager
-from qoelab import bcrypt
+﻿from qoelab import db, login_manager, bcrypt
 from flask_login import UserMixin
+
+#Metoda dodająca kolejnego użytkownika do bazy danych
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+#Klasa User
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer(), primary_key=True)
@@ -13,15 +16,17 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String(length=60), nullable=False)
 
     @property
-    def password(self):
+    def pwd(self):
         return self.password
 
-    @password.setter
-    def password(self, plain_text_password):
-        self.password_hash = bcrypt.generate_password_hash(plain_text_password).decode('utf-8')
+    @pwd.setter
+    def pwd(self, pwd_raw):
+        self.password_hash = bcrypt.generate_password_hash(pwd_raw).decode('utf-8')
     
-    def check_password_correction(self, attempted_password):
-        return bcrypt.check_password_hash(self.password_hash, attempted_password)
+    def pwd_check(self, login_check):
+        return bcrypt.check_password_hash(self.password_hash, login_check)
+
+#Klasa User_Dataset
 
 class User_Dataset(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
@@ -30,8 +35,6 @@ class User_Dataset(db.Model):
     age = db.Column(db.Integer())
     left_eye = db.Column(db.String())
     right_eye = db.Column(db.String())
-    dl_speed_1 = db.Column(db.Float())
-    dl_speed_2 = db.Column(db.Float())
     q_1 = db.Column(db.Integer())
     q_2 = db.Column(db.Integer())
     q_3 = db.Column(db.Integer())
@@ -40,12 +43,17 @@ class User_Dataset(db.Model):
     q_6 = db.Column(db.Integer())
     session_time = db.Column(db.Float())
 
+#Klasa Statistics
+
 class Statistics(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     tester_id = db.Column(db.Integer())
     sequence_name = db.Column(db.String())
     rate = db.Column(db.Integer())
     running_order = db.Column(db.Integer())
+    dl_speed = db.Column(db.Float())
+
+#Klasy Sex, Education, Year, VisionDefect, TLX
 
 class Sex(db.Model):
     __tablename__ = 'Sex'

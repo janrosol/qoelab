@@ -1,8 +1,8 @@
 ﻿from qoelab import app, db
 from flask import render_template, redirect, url_for, flash, request
-from qoelab.modules import User, Sex, Education, Year, VisionDefect, User_Dataset, TLX, Statistics
-from qoelab.forms import RegisterForm, LoginForm, Buttons, NASA_TLX, TestSurvey
 from flask_login import login_user, logout_user, login_required, current_user
+from qoelab.modules import User, Sex, Education, Year, VisionDefect, User_Dataset, TLX, Statistics
+from qoelab.forms import Form_Login, Form_Register, Buttons, NASA_TLX, TestSurvey
 import speedtest, time, json, threading, ast, os
 import pandas as pd
 
@@ -10,17 +10,12 @@ import pandas as pd
 time_data=[0,0]
 i=0
 
-#Pomiary przepustowosci lacza
-def dl_speed_test_1():
-    download_speed = round(speedtest.Speedtest().download()/1024/1024, 2)
-    user = User_Dataset.query.get(User_Dataset.query.count())
-    user.dl_speed_1 = download_speed
-    db.session.commit()
-
-def dl_speed_test_2():
-    download_speed = round(speedtest.Speedtest().download()/1024/1024, 2)
-    user = User_Dataset.query.get(User_Dataset.query.count())
-    user.dl_speed_2 = download_speed
+#Pomiar przepustowosci lacza
+def dl_speed_test():
+    speed = speedtest.Speedtest().download()/1024/1024
+    rounded_speed = round(speed, 2)
+    measure = Statistics.query.get(Statistics.query.count())
+    measure.dl_speed = rounded_speed
     db.session.commit()
 
 #Strona glowna
@@ -30,8 +25,8 @@ def home_page():
     if time_data[0] != 0:
         time_data[1] = time.time()
         session_time = round(time_data[1] - time_data[0], 2)
-        user = User_Dataset.query.get(User_Dataset.query.count())
-        user.session_time = session_time
+        data = User_Dataset.query.get(User_Dataset.query.count())
+        data.session_time = session_time
         db.session.commit()
         time_data[0] = 0
     return render_template('home.html')
@@ -40,11 +35,10 @@ def home_page():
 @app.route('/qoe_1', methods=['GET', 'POST'])
 @login_required
 def qoe_1_page():
-    form = Buttons()
-    if form.validate_on_submit():
+    if request.method == 'POST':
         time_data[0] = time.time()
         return redirect(url_for('qoe_2_page'))
-    return render_template('qoe_1.html', form=form)
+    return render_template('qoe_1.html')
 
 #Ankieta
 @app.route('/qoe_2', methods=['GET', 'POST'])
@@ -79,8 +73,6 @@ def qoe_2_page():
 @app.route('/training_session', methods=['GET', 'POST'])
 @login_required
 def training_page():
-    ds1 = threading.Thread(target=dl_speed_test_1)
-    ds1.start()
     if request.method == 'POST':
         return redirect(url_for('experience_page'))
     return render_template('training_session.html')
@@ -91,7 +83,6 @@ def training_page():
 def experience_page():
     global i
     sequences_number = len(pd.read_csv('sequences.csv'))
-    print(sequences_number)
     links = pd.read_csv('shuffled_data.csv').iloc[:,2:3].values
     titles = pd.read_csv('shuffled_data.csv').iloc[:,1:2].values
     links_new = []
@@ -108,6 +99,8 @@ def experience_page():
                            running_order=i)
         db.session.add(stats)
         db.session.commit()
+        ds = threading.Thread(target=dl_speed_test)
+        ds.start()
         return redirect(url_for('experience_page'))
     if(i == sequences_number):
         return redirect(url_for('tlx_page'))
@@ -122,8 +115,6 @@ def tlx_page():
     global i
     if i != 0:
         i = 0
-    ds2 = threading.Thread(target=dl_speed_test_2)
-    ds2.start()
     form = NASA_TLX()
     form.q_1.choices = [(q.id, q.name) for q in TLX.query.all()]
     form.q_2.choices = [(q.id, q.name) for q in TLX.query.all()]
@@ -175,47 +166,45 @@ def statistics_page():
 def register_page():
     id = current_user.id
     if id == 1:
-        form = RegisterForm()
-        if form.validate_on_submit():
-            user_to_create = User(username=form.username.data,
-                                  email_address=form.email_address.data,
-                                  password=form.password1.data)
-            db.session.add(user_to_create)
+        register = Form_Register()
+        if register.validate_on_submit():
+            new_user = User(username=register.username.data,
+                                  email_address=register.email_address.data,
+                                  pwd=register.password1.data)
+            db.session.add(new_user)
             db.session.commit()
-            return redirect(url_for('data_page'))
-        if form.errors != {}:
-            for err_msg in form.errors.values():
-                flash(f'Wystąpił błąd: {err_msg}', category='danger')
+            return redirect(url_for('home_page'))
+        if register.errors != {}:
+            for error in register.errors.values():
+                flash(f'Wystąpił błąd: {error}')
     else:
-        flash(f'Nie masz uprawnień aby wyświetlać tę zawartość.', category='info')
+        flash("Nie masz uprawnień aby wyświetlać tę zawartość.")
         return redirect(url_for('home_page'))
 
-    return render_template('register.html', form=form)
+    return render_template('register.html', register_form=register)
 
 #Logowanie
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
-    form = LoginForm()
-    if form.validate_on_submit():
-        attempted_user = User.query.filter_by(username=form.username.data).first()
-        if attempted_user and attempted_user.check_password_correction(
-            attempted_password=form.password.data
-            ):
-            login_user(attempted_user)
-            flash(f'Logowanie powiodło się! Witaj {attempted_user.username}!', category='success')
+    login = Form_Login()
+    if login.validate_on_submit():
+        login_check = User.query.filter_by(username=login.username.data).first()
+        if login_check.pwd_check(login_check=login.password.data) and login_check:
+            login_user(login_check)
+            flash(f'Logowanie powiodło się! Witaj {login_check.username}!', category='success')
             return redirect(url_for('home_page'))
         else:
-            flash(f'Nieprawidłowy login lub hasło. Spróbuj ponownie!', category='danger')
-    if form.errors != {}:
-        for err_msg in form.errors.values():
-            flash(f'Wystąpił błąd: {err_msg}', category='danger')
+            flash("Nieprawidłowy login lub hasło. Spróbuj ponownie!", category='danger')
+    if login.errors != {}:
+        for error in login.errors.values():
+            flash(f'Wystąpił błąd: {error}', category='danger')
 
-    return render_template('login.html', form=form)
+    return render_template('login.html', login_form=login)
 
 #Wylogowanie
 @app.route('/logout')
 @login_required
 def logout_page():
     logout_user()
-    flash("Zostałeś wylogowany!", category='info')
+    flash("Zostałeś wylogowany!", category='success')
     return redirect(url_for('login_page'))
