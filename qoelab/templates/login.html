@@ -1,21 +1,26 @@
 ﻿{% extends 'base.html' %} 
-{% block title %} Zaloguj się {% endblock %} 
+{% block title %} 
+Zaloguj się 
+{% endblock %} 
+
 {% block content %} 
+
+<!-- Konfiguracja podstrony z logowaniem -->
 
 <body class="center">
   <div class="container">
     <form method="POST" class="form-signin" style="color:white">
-      {{ form.hidden_tag() }}
+      {{ login_form.hidden_tag() }}
       <br><h2><b>Logowanie</b></h2>
       <br><img src="https://qoe.agh.edu.pl/wp-content/uploads/2021/05/cropped-logoqoe_crop_square-1.png" alt="nw" width="200" height="200"><br><br><br>
-      {{ form.username.label() }}
-      {{ form.username(class="form-control", placeholder="Login") }}
+      {{ login_form.username.label() }}
+      {{ login_form.username(class="form-control", placeholder="Login") }}
       <br>
-      {{ form.password.label() }}
-      {{ form.password(class="form-control", placeholder="Hasło") }}
+      {{ login_form.password.label() }}
+      {{ login_form.password(class="form-control", placeholder="Hasło") }}
       <br>
       <br>
-      {{ form.submit(class="btn btn-lg btn-primary") }}
+      {{ login_form.submit(class="btn btn-lg btn-primary") }}
     </form>
   </div>
 </body>

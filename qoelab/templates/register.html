@@ -4,27 +4,29 @@
 Nowe konto
 {% endblock %}
 
+<!-- Konfiguracja podstrony gdzie dokonywana jest rejestracja nowego użytkownika -->
+
 {% block content %}
 <body class="center">
 	<div class="container">
 		<form method="POST" class="form-register" style="color:white">
-		{{ form.hidden_tag() }}
+		{{ register_form.hidden_tag() }}
 		<br><h2><b>Tworzenie nowego konta</b></h2>
 			<br><img src="https://qoe.agh.edu.pl/wp-content/uploads/2021/05/cropped-logoqoe_crop_square-1.png" alt="nw" width="200" height="200"><br><br><br>
-			{{ form.username.label() }}
-			{{ form.username(class="form-control", placeholder="Login") }}
+			{{ register_form.username.label() }}
+			{{ register_form.username(class="form-control", placeholder="Login") }}
 			<br>
-			{{ form.email_address.label() }}
-			{{ form.email_address(class="form-control", placeholder="Adres e-mail") }}
+			{{ register_form.email_address.label() }}
+			{{ register_form.email_address(class="form-control", placeholder="Adres e-mail") }}
 			<br>
-			{{ form.password1.label() }}
-			{{ form.password1(class="form-control", placeholder="Hasło") }}
+			{{ register_form.password1.label() }}
+			{{ register_form.password1(class="form-control", placeholder="Hasło") }}
 			<br>
-			{{ form.password2.label() }}
-			{{ form.password2(class="form-control", placeholder="Potwierdź hasło") }}
+			{{ register_form.password2.label() }}
+			{{ register_form.password2(class="form-control", placeholder="Potwierdź hasło") }}
 			<br>
 			<br>
-			{{ form.submit(class="btn btn-lg btn-primary") }}
+			{{ register_form.submit(class="btn btn-lg btn-primary") }}
 		</form>
 	</div>
 </body>
