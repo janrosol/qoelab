@@ -13,20 +13,20 @@ Nowe konto
 		{{ register_form.hidden_tag() }}
 		<br><h2><b>Tworzenie nowego konta</b></h2>
 			<br><img src="https://qoe.agh.edu.pl/wp-content/uploads/2021/05/cropped-logoqoe_crop_square-1.png" alt="nw" width="200" height="200"><br><br><br>
-			{{ register_form.username.label() }}
-			{{ register_form.username(class="form-control", placeholder="Login") }}
+			{{ register_form.user_name.label() }}
+			{{ register_form.user_name(class="form-control", placeholder="Login") }}
 			<br>
-			{{ register_form.email_address.label() }}
-			{{ register_form.email_address(class="form-control", placeholder="Adres e-mail") }}
+			{{ register_form.email.label() }}
+			{{ register_form.email(class="form-control", placeholder="Adres e-mail") }}
 			<br>
-			{{ register_form.password1.label() }}
-			{{ register_form.password1(class="form-control", placeholder="Hasło") }}
+			{{ register_form.pwd1.label() }}
+			{{ register_form.pwd1(class="form-control", placeholder="Hasło") }}
 			<br>
-			{{ register_form.password2.label() }}
-			{{ register_form.password2(class="form-control", placeholder="Potwierdź hasło") }}
+			{{ register_form.pwd2.label() }}
+			{{ register_form.pwd2(class="form-control", placeholder="Potwierdź hasło") }}
 			<br>
 			<br>
-			{{ register_form.submit(class="btn btn-lg btn-primary") }}
+			{{ register_form.save(class="btn btn-lg btn-primary") }}
 		</form>
 	</div>
 </body>

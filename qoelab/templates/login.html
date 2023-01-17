@@ -13,14 +13,14 @@ Zaloguj się
       {{ login_form.hidden_tag() }}
       <br><h2><b>Logowanie</b></h2>
       <br><img src="https://qoe.agh.edu.pl/wp-content/uploads/2021/05/cropped-logoqoe_crop_square-1.png" alt="nw" width="200" height="200"><br><br><br>
-      {{ login_form.username.label() }}
-      {{ login_form.username(class="form-control", placeholder="Login") }}
+      {{ login_form.user_name.label() }}
+      {{ login_form.user_name(class="form-control", placeholder="Login") }}
       <br>
-      {{ login_form.password.label() }}
-      {{ login_form.password(class="form-control", placeholder="Hasło") }}
+      {{ login_form.pwd.label() }}
+      {{ login_form.pwd(class="form-control", placeholder="Hasło") }}
       <br>
       <br>
-      {{ login_form.submit(class="btn btn-lg btn-primary") }}
+      {{ login_form.save(class="btn btn-lg btn-primary") }}
     </form>
   </div>
 </body>
