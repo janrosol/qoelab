@@ -1,6 +1,6 @@
 ﻿from qoelab import app, db
 from flask import render_template, redirect, url_for, flash, request
-from flask_login import login_user, logout_user, login_required, current_user
+from flask_login import current_user, login_user, logout_user, login_required
 from qoelab.modules import User, Sex, Education, Year, VisionDefect, User_Dataset, TLX, Statistics
 from qoelab.forms import Form_Login, Form_Register, Buttons, NASA_TLX, TestSurvey
 import speedtest, time, json, threading, ast, os
@@ -168,10 +168,10 @@ def register_page():
     if id == 1:
         register = Form_Register()
         if register.validate_on_submit():
-            new_user = User(username=register.username.data,
-                                  email_address=register.email_address.data,
-                                  pwd=register.password1.data)
-            db.session.add(new_user)
+            new_user_name = User(username=register.user_name.data,
+                                  email_address=register.email.data,
+                                  pwd=register.pwd1.data)
+            db.session.add(new_user_name)
             db.session.commit()
             return redirect(url_for('home_page'))
         if register.errors != {}:
@@ -188,8 +188,8 @@ def register_page():
 def login_page():
     login = Form_Login()
     if login.validate_on_submit():
-        login_check = User.query.filter_by(username=login.username.data).first()
-        if login_check.pwd_check(login_check=login.password.data) and login_check:
+        login_check = User.query.filter_by(username=login.user_name.data).first()
+        if login_check.pwd_check(login_check=login.pwd.data) and login_check:
             login_user(login_check)
             flash(f'Logowanie powiodło się! Witaj {login_check.username}!', category='success')
             return redirect(url_for('home_page'))
