@@ -1,7 +1,7 @@
-﻿from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_bcrypt import Bcrypt
+from flask import Flask
 from flask_login import LoginManager
+from flask_bcrypt import Bcrypt
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
@@ -12,9 +12,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///qoelab.db'
 app.config['SECRET_KEY'] = 'e78257a7691c942e5e409a49'
 
 #Obiekty niezbędne do działania aplikacji
-db = SQLAlchemy(app)
-bcrypt = Bcrypt(app)
-login_manager = LoginManager(app)
+login_manager = LoginManager(app) #Logowanie
+bcrypt = Bcrypt(app) #Szyfrowanie hasła
+db = SQLAlchemy(app) #Baza danych
 
 #Import modułu routes
 from qoelab import routes
