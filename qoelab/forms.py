@@ -1,32 +1,33 @@
-﻿from flask_wtf import FlaskForm
+﻿from qoelab.modules import User
+from flask_wtf import FlaskForm
+from wtforms.validators import Email, NumberRange, Length, EqualTo, ValidationError, DataRequired 
 from wtforms import StringField, PasswordField, SubmitField, IntegerField, SelectField
-from wtforms.validators import EqualTo, DataRequired, Length, ValidationError, NumberRange, Email
-from qoelab.modules import User
+
 
 #Klasa RegisterForm
 
 class Form_Register(FlaskForm):
-    def validate_username(self, username_to_check):
-        user = User.query.filter_by(username=username_to_check.data).first()
+    def user_name_validation(self, user_check):
+        user = User.query.filter_by(user_name=user_check.data).first()
         if user:
             raise ValidationError("Taki użytkownik już istnieje. Spróbuj ponownie!")
-    def validate_email_address(self, email_address_to_check):
-        email_address = User.query.filter_by(email_address=email_address_to_check.data).first()
-        if email_address:
+    def email_validation(self, email_check):
+        email = User.query.filter_by(email=email_check).first()
+        if email:
             raise ValidationError("Podany adres został już wykorzystany. Spróbuj ponownie!")
 
-    username = StringField(label='Login:', validators=[Length(min=3, max=30), DataRequired()])
-    email_address = StringField(label='Adres e-mail:', validators=[Email(), DataRequired()])
-    password1 = PasswordField(label='Hasło:', validators=[Length(min=6), DataRequired()])
-    password2 = PasswordField(label='Potwierdź hasło:', validators=[EqualTo('password1'), DataRequired()])
-    submit = SubmitField(label='Utwórz konto')
+    user_name = StringField(label='Login:', validators=[Length(max=30), DataRequired()])
+    email = StringField(label='Adres e-mail:', validators=[Email(), DataRequired()])
+    pwd1 = PasswordField(label='Hasło:', validators=[Length(min=6), DataRequired()])
+    pwd2 = PasswordField(label='Potwierdź hasło:', validators=[EqualTo('pwd1'), DataRequired()])
+    save = SubmitField(label='Utwórz konto')
 
 #Klasa LoginForm
 
 class Form_Login(FlaskForm):
-    username=StringField(label='Login:', validators=[DataRequired()])
-    password=PasswordField(label='Hasło:', validators=[DataRequired()])
-    submit = SubmitField(label='Zaloguj się')
+    user_name=StringField(label='Login:', validators=[DataRequired()])
+    pwd=PasswordField(label='Hasło:', validators=[DataRequired()])
+    save=SubmitField(label='Zaloguj się')
 
 #Klasa TestSurvey
 
